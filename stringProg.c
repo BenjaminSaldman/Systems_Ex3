@@ -6,6 +6,39 @@
 int isEnd(char c);
 int gimatric(char* c);
 int checkLetter(char c);
+int checkLetter(char c)
+{
+    if(c>='A' && c<='Z')
+        return 1;
+    if(c>='a' && c<='z')
+        return 1;
+    return 0;
+}
+
+char reversed(char given)
+{
+    if (given >= 'A' && given <= 'Z')
+    {
+        int num = ((int)given + 26) - 2 * ((int)given - 64) + 1;
+        return (char)num;
+    }
+    else if (given >= 'a' && given <= 'z')
+    {
+        int num = ((int)given + 26) - 2 * ((int)given - 96) + 1;
+        return (char)num;
+    }
+    else return given;
+}
+
+int containsReversed(char word[], char given)
+{
+    for (int i = 0; i < strlen(word); i++)
+    {
+        if (word[i] == reversed(given))
+            return 1;
+    }
+    return 0;
+}
 int main()
 {
     char word[WORD];
@@ -51,6 +84,80 @@ int main()
     }
     printf("\n");
     printf("Atbash Sequences: ");
+    char assist[TXT];
+    int b = 0;
+    first = 1;
+    for (int i = 0; i < strlen(text) - 1; i++)
+    {
+        if (text[i] == reversed(word[0]))
+        {
+            assist[b++] = text[i];
+            for (int j = 1; j < strlen(word); j++)
+            {
+                i++;
+                if ((checkLetter(text[i]) == 0) || (text[i] == reversed(word[j])))
+                {
+                    assist[b++] = text[i];
+                    if ((j == strlen(word) - 1) && (assist[--b] == reversed(word[strlen(word) - 1])))
+                    {
+                        if (first == 1)
+                        {
+                            printf("%s", assist);
+                            first = 0;
+                        }
+                        else
+                        {
+                            printf("~%s", assist);
+                        }
+                        memset(assist, 0, sizeof(assist));
+                        b = 0;
+                    }
+                }
+                else 
+                {
+                    memset(assist, 0, sizeof(assist));
+                    b = 0;
+                    break;
+                }
+            }
+            i--;
+        } 
+        else if (text[i] == reversed(word[strlen(word) - 1]))  
+        {
+            assist[b++] = text[i];
+            for (int j = (strlen(word) - 2); j >= 0; j--)
+            {
+                i++;
+                if ((checkLetter(text[i]) == 0) || (text[i] == reversed(word[j])))
+                {
+                     assist[b++] = text[i];
+                     if ((j == 0) && (assist[--b] == reversed(word[0]))) 
+                    {
+                        if (first == 1)
+                        {
+                            printf("%s", assist);
+                            first = 0;
+                        }
+                        else
+                        {
+                            printf("~%s", assist);
+                        }
+                        memset(assist, 0, sizeof(assist));
+                        b = 0;
+                    }
+                }
+                else
+                {
+                    memset(assist, 0, sizeof(assist));
+                    b = 0;
+                    break;
+                }
+            }
+            i--;
+        } 
+    }
+
+    printf("\n");
 
    
 
@@ -87,12 +194,4 @@ int gimatric(char *c)
     i++;
     }
     return counter;
-}
-int checkLetter(char c)
-{
-    if(c>='A' && c<='Z')
-        return 1;
-    if(c>='a' && c<='z')
-        return 1;
-    return 0;
 }
