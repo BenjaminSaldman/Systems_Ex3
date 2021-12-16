@@ -34,28 +34,30 @@ int isAnagram(char word[],char c[])
             anagramed[index++]=c[i];
     }
     anagramed[index]='\0';
-    if(strlen(anagramed)<strlen(word))
+    if(strlen(anagramed)!=strlen(word))
         return 0;
-    int ans=1;
+    int abc1[26];
+    int abc2[26];
+    memset(abc1,0,sizeof(abc1));
+    memset(abc2,0,sizeof(abc2));
     for(int i=0;i<strlen(word);i++)
     {
-        if(anagramed[i]!=word[i])
-        {
-            ans=0;
-            break;
-        }
+        if(word[i]>='a' && word[i]<='z')
+            abc1[word[i]-'a']++;
+        else
+            abc1[word[i]-'a']++;
+
+        if(anagramed[i]>='a' && anagramed[i]<='z')
+            abc2[anagramed[i]-'a']++;
+        else
+            abc2[anagramed[i]-'a']++; 
     }
-    if(ans==1)
-        return 1;
-     for(int i=0;i<strlen(word);i++)
+    for(int i=0;i<26;i++)
     {
-        if(anagramed[strlen(word)-i-1]!=word[i])
-        {
-            ans=0;
-            break;
-        }
+        if(abc1[i]!=abc2[i])
+            return 0;
     }
-    return ans;
+    return 1;
 }
 int isEnd(char c)
 {
