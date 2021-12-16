@@ -45,12 +45,12 @@ int isAnagram(char word[],char c[])
         if(word[i]>='a' && word[i]<='z')
             abc1[word[i]-'a']++;
         else
-            abc1[word[i]-'a']++;
+            abc1[word[i]-'A']++;
 
         if(anagramed[i]>='a' && anagramed[i]<='z')
             abc2[anagramed[i]-'a']++;
         else
-            abc2[anagramed[i]-'a']++; 
+            abc2[anagramed[i]-'A']++; 
     }
     for(int i=0;i<26;i++)
     {
